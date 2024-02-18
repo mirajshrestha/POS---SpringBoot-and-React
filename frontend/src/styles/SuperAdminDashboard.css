@@ -1,0 +1,52 @@
+.sidebar {
+    height: 100vh;
+    position: fixed;
+    top: 0;
+    left: 0;
+    overflow-y: auto;
+    padding-top: 20px;
+    padding-right: 10px;
+    background-color: #333 !important;
+    display: flex;
+    flex-direction: column;
+}
+
+.sidebar-link {
+    color: #fff;
+    text-decoration: none;
+    padding: 10px;
+    margin-bottom: 10px;
+    border-radius: 5px;
+    transition: background-color 0.3s;
+}
+
+.sidebar-link.active {
+    background-color: #007bff;
+}
+
+.sidebar-link.super-admin {
+    font-size: 1.5rem;
+    font-weight: bold;
+    color: #007bff;
+    /* Blue color */
+}
+
+.main-content {
+    margin-left: 17%;
+    padding: 20px;
+}
+
+.mt-auto {
+    margin-top: auto;
+}
+
+@media (max-width: 768px) {
+    .main-content {
+        margin-left: 0;
+    }
+
+    .sidebar {
+        padding-right: 0;
+    }
+}
+
