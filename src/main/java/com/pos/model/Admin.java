@@ -1,9 +1,16 @@
 package com.pos.model;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
+import jakarta.persistence.OneToMany;
+
+import java.util.HashSet;
+import java.util.Set;
+
 
 @Entity
 public class Admin {
@@ -18,13 +25,17 @@ public class Admin {
 	private String contact;
 	private String full_name;
 	private boolean passwordHashed;
+	
+	@OneToMany(mappedBy = "admin")
+	@JsonIgnore
+	private Set<Product> product = new HashSet<>();
 
 	public Admin() {
 
 	}
 
 	public Admin(Long id, String username, String password, String status, String email, String contact,
-			String full_name, boolean passwordHashed) {
+			String full_name, boolean passwordHashed, Set<Product> product) {
 		super();
 		this.id = id;
 		this.username = username;
@@ -34,6 +45,7 @@ public class Admin {
 		this.contact = contact;
 		this.full_name = full_name;
 		this.passwordHashed = passwordHashed;
+		this.product = product;
 	}
 
 	public Long getId() {
@@ -98,6 +110,14 @@ public class Admin {
 
 	public void setPasswordHashed(boolean passwordHashed) {
 		this.passwordHashed = passwordHashed;
+	}
+
+	public Set<Product> getProduct() {
+		return product;
+	}
+
+	public void setProduct(Set<Product> product) {
+		this.product = product;
 	}
 	
 	

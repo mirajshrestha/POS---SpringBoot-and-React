@@ -7,6 +7,7 @@ import { useNavigate } from 'react-router-dom';
 import ManagersTab from './ManagersTab';
 import CashierTab from './CashierTab';
 import ProfileTab from './ProfileTab';
+import ProductTab from './ProductTab';
 
 const Dashboard = () => {
   const [activeTab, setActiveTab] = useState('managers');
@@ -48,6 +49,9 @@ const Dashboard = () => {
               <Nav.Link eventKey="cashier" className="sidebar-link">
                 <i className="bi bi-cash"></i> Cashier
               </Nav.Link>
+              <Nav.Link eventKey="product" className="sidebar-link">
+                <i className="bi bi-box-seam-fill"></i> Product
+              </Nav.Link>
               <Nav.Link eventKey="profile" className="sidebar-link">
                 <i className="bi bi-person"></i> Profile
               </Nav.Link>
@@ -65,6 +69,9 @@ const Dashboard = () => {
               </Tab.Pane>
               <Tab.Pane eventKey="cashier">
                 <CashierTab />
+              </Tab.Pane>
+              <Tab.Pane eventKey="product">
+                <ProductTab />
               </Tab.Pane>
               <Tab.Pane eventKey="profile">
                 <ProfileTab />

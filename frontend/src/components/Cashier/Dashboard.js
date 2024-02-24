@@ -6,6 +6,8 @@ import axios from 'axios';
 import { useNavigate } from 'react-router-dom';
 import DashboardTab from './DashboardTab';
 import ProfileTab from './ProfileTab';
+import ProductTab from './ProductTab';
+import CartTab from './CartTab';
 
 const Dashboard = () => {
   const [activeTab, setActiveTab] = useState('cashier');
@@ -46,6 +48,12 @@ const Dashboard = () => {
               <Nav.Link eventKey="cashier" className="sidebar-link">
                 <i className="bi bi-kanban-fill"></i> Dashboard
               </Nav.Link>
+              <Nav.Link eventKey="product" className="sidebar-link">
+                <i className="bi bi-box-seam-fill"></i> Product
+              </Nav.Link>
+              <Nav.Link eventKey="cart" className="sidebar-link">
+                <i className="bi bi-cart"></i> Cart
+              </Nav.Link>
               <Nav.Link eventKey="profile" className="sidebar-link">
                 <i className="bi bi-person"></i> Profile
               </Nav.Link>
@@ -60,6 +68,12 @@ const Dashboard = () => {
             <Tab.Content>
               <Tab.Pane eventKey="cashier">
                 <DashboardTab />
+              </Tab.Pane>
+              <Tab.Pane eventKey="product">
+                <ProductTab />
+              </Tab.Pane>
+              <Tab.Pane eventKey="cart">
+                <CartTab />
               </Tab.Pane>
               <Tab.Pane eventKey="profile">
                 <ProfileTab />

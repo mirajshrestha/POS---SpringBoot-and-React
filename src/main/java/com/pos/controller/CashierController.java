@@ -19,6 +19,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.pos.model.Cashier;
+import com.pos.service.CartService;
 import com.pos.service.CashierService;
 
 import jakarta.servlet.http.HttpServletRequest;
@@ -31,6 +32,9 @@ public class CashierController {
 
 	@Autowired
 	private CashierService cashierService;
+	
+	@Autowired
+	private CartService cartService;
 
 	@PostMapping("/generateRandomCashier")
 	public Cashier generateRandomCashier() {
@@ -81,6 +85,7 @@ public class CashierController {
 	@GetMapping("/logout")
 	public ResponseEntity<?> logout(HttpSession session) {
 		session.invalidate();
+		cartService.clearCart();
 		return ResponseEntity.ok("Logout Successful");
 	}
 
