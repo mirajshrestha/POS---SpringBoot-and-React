@@ -1,6 +1,7 @@
 package com.pos.service;
 
 import java.math.BigDecimal;
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
@@ -115,6 +116,8 @@ public class CartService {
 			transaction.setTotalPrice((int) totalPrice);
 			
 			transaction.setCashierId(cashierId);
+			
+			transaction.setCheckoutDateTime(LocalDateTime.now());
 			
 			transactionRepository.save(transaction);
 		}

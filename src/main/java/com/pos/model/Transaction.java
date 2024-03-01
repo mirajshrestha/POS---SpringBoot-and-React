@@ -1,5 +1,7 @@
 package com.pos.model;
 
+import java.time.LocalDateTime;
+
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
@@ -21,18 +23,22 @@ public class Transaction {
 	private Long cashierId;
 	private Integer quantity;
 	private Integer totalPrice;
+	
+	private LocalDateTime checkoutDateTime;
 
 	public Transaction() {
 
 	}
 
-	public Transaction(Long id, Product product, Long cashierId, Integer quantity, Integer totalPrice) {
+	public Transaction(Long id, Product product, Long cashierId, Integer quantity, Integer totalPrice,
+			LocalDateTime checkoutDateTime) {
 		super();
 		this.id = id;
 		this.product = product;
 		this.cashierId = cashierId;
 		this.quantity = quantity;
 		this.totalPrice = totalPrice;
+		this.checkoutDateTime = checkoutDateTime;
 	}
 
 	public Long getCashierId() {
@@ -73,6 +79,14 @@ public class Transaction {
 
 	public void setTotalPrice(Integer totalPrice) {
 		this.totalPrice = totalPrice;
+	}
+
+	public LocalDateTime getCheckoutDateTime() {
+		return checkoutDateTime;
+	}
+
+	public void setCheckoutDateTime(LocalDateTime checkoutDateTime) {
+		this.checkoutDateTime = checkoutDateTime;
 	}
 
 }
