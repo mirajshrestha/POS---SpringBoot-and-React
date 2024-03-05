@@ -8,6 +8,7 @@ import { useNavigate } from 'react-router-dom';
 import AdminTab from './AdminTab';
 import ManagersTab from './ManagersTab';
 import CashierTab from './CashierTab';
+import ProductCategory from './ProductCategory';
 
 const SuperAdminDashboard = () => {
   const [activeTab, setActiveTab] = useState('admin');
@@ -58,6 +59,9 @@ const SuperAdminDashboard = () => {
               <Nav.Link eventKey="cashier" className="sidebar-link">
                 <i className="bi bi-cash"></i> Cashier
               </Nav.Link>
+              <Nav.Link eventKey="category" className="sidebar-link">
+                <i className="bi bi-tag"></i> Product Categories
+              </Nav.Link>
               
             </Nav>
 
@@ -76,6 +80,9 @@ const SuperAdminDashboard = () => {
               </Tab.Pane>
               <Tab.Pane eventKey="cashier">
                 <CashierTab />
+              </Tab.Pane>
+              <Tab.Pane eventKey="category">
+                <ProductCategory />
               </Tab.Pane>
               
             </Tab.Content>

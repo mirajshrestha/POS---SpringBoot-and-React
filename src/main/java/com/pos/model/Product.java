@@ -9,7 +9,7 @@ import jakarta.persistence.ManyToOne;
 
 @Entity
 public class Product {
-	
+
 	@Id
 	@GeneratedValue(strategy = GenerationType.AUTO)
 	private Long id;
@@ -17,20 +17,25 @@ public class Product {
 	private Integer price;
 	private Integer quantity;
 	private String img;
-	
+
 	@ManyToOne
 	@JoinColumn(name = "admin_id")
 	private Admin admin;
-	
+
 	@ManyToOne
 	@JoinColumn(name = "manager_id")
 	private Manager manager;
-	
+
+	@ManyToOne
+	@JoinColumn(name = "category_id")
+	private Category category;
+
 	public Product() {
 
 	}
 
-	public Product(Long id, String name, Integer price, Integer quantity, String img, Admin admin, Manager manager) {
+	public Product(Long id, String name, Integer price, Integer quantity, String img, Admin admin, Manager manager,
+			Category category) {
 		super();
 		this.id = id;
 		this.name = name;
@@ -39,6 +44,7 @@ public class Product {
 		this.img = img;
 		this.admin = admin;
 		this.manager = manager;
+		this.category = category;
 	}
 
 	public Long getId() {
@@ -96,5 +102,13 @@ public class Product {
 	public void setImg(String img) {
 		this.img = img;
 	}
-	
+
+	public Category getCategory() {
+		return category;
+	}
+
+	public void setCategory(Category category) {
+		this.category = category;
+	}
+
 }

@@ -3,6 +3,7 @@ import { Button, Modal, Form, Table } from 'react-bootstrap';
 import axios from 'axios';
 
 const ProductTab = () => {
+  const [categories, setCategories] = useState([]);
   const [showModal, setShowModal] = useState(false);
   const [editModalVisible, setEditModalVisible] = useState(false);
 
@@ -74,7 +75,6 @@ const ProductTab = () => {
 
   const handleEditProduct = async () => {
     try {
-      // Construct the updated product data
       const updatedProductData = {
         name: editProductName,
         price: editPrice,
@@ -110,13 +110,14 @@ const ProductTab = () => {
         quantity: productData.quantity,
 
       })], { type: "application/json" }));
-
+      formData.append('categoryId', productData.categoryId);
       const response = await axios.post('/api/product/add', formData, {
         headers: {
           'Content-Type': 'multipart/form-data',
 
         },
       });
+      console.log('Product added:', response.data);
       fetchProducts();
       handleCloseModal();
     } catch (error) {
@@ -150,7 +151,17 @@ const ProductTab = () => {
 
   useEffect(() => {
     fetchProducts();
+    fetchCategories();
   }, []);
+
+  const fetchCategories = async () => {
+    try {
+      const response = await axios.get('/api/category/all');
+      setCategories(response.data);
+    } catch (error) {
+      console.error('Error fetching categories:', error);
+    }
+  };
 
   const handleDeleteProduct = async (productId) => {
     try {
@@ -215,6 +226,20 @@ const ProductTab = () => {
                 name="productImage"
                 onChange={handleChange}
               />
+            </Form.Group>
+            <Form.Group controlId="categoryId">
+              <Form.Label>Category:</Form.Label>
+              <Form.Control
+                as="select"
+                name="categoryId"
+                value={productData.categoryId}
+                onChange={handleChange}
+              >
+                <option value="" disabled>Select a category</option>
+                {categories.map((category) => (
+                  <option key={category.id} value={category.id}>{category.name}</option>
+                ))}
+              </Form.Control>
             </Form.Group>
             <br />
             <Button variant="primary" onClick={handleAddProduct}>

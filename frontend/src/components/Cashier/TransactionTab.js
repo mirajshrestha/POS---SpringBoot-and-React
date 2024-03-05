@@ -61,7 +61,7 @@ const TransactionTab = () => {
             body: transactions,
             foot: [['', '', '', 'Total:', total]],
         })
-        pdfDoc.save(`transaction_history${selectedGroup}.pdf`);
+        pdfDoc.save(`transaction_history.pdf`);
     }
 
     const getTransactionData = (groupIndex) => {
@@ -97,8 +97,8 @@ const TransactionTab = () => {
             {transactions.map((group, index) => (
                 <div key={index}>
                     <Card>
-                        <Card.Header>
-                            <div className='d-flex justify-content-between align-items-center'>
+                        <Card.Header style={{ cursor: 'pointer' }}>
+                            <div className='d-flex justify-content-between align-items-center' onClick={() => { handleCardToggle(index) }}>
                                 <span>Transaction {group.checkoutDateTime}</span>
                                 <i className={iconClass[index]} onClick={() => { handleCardToggle(index) }}></i>
                             </div>

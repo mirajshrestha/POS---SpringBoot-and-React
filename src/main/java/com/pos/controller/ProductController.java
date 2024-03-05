@@ -13,11 +13,13 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RequestPart;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.multipart.MultipartFile;
 
 import com.pos.model.Admin;
+import com.pos.model.Category;
 import com.pos.model.Manager;
 import com.pos.model.Product;
 import com.pos.service.ProductService;
@@ -35,7 +37,8 @@ public class ProductController {
 
 	@PostMapping("/add")
 	public ResponseEntity<String> addProduct(@RequestPart("image") MultipartFile image,
-			@RequestPart("product") Product product, HttpServletRequest request) throws IOException {
+			@RequestPart("product") Product product, @RequestParam("categoryId") Long categoryId,
+			HttpServletRequest request) throws IOException {
 
 		Long adminId = (Long) request.getSession().getAttribute("adminId");
 		Long managerId = (Long) request.getSession().getAttribute("managerId");
@@ -52,7 +55,7 @@ public class ProductController {
 			String imagePath = productService.saveImage(image);
 			product.setImg(imagePath);
 
-			productService.registerProduct(product);
+			productService.registerProduct(product, categoryId);
 
 			return ResponseEntity.ok("Product Added By Admin");
 		} else if (managerId != null) {
@@ -65,7 +68,7 @@ public class ProductController {
 			String imagePath = productService.saveImage(image);
 			product.setImg(imagePath);
 
-			productService.registerProduct(product);
+			productService.registerProduct(product, categoryId);
 
 			return ResponseEntity.ok("Product Added By Manager");
 		}
@@ -140,7 +143,7 @@ public class ProductController {
 
 		return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body("Unauthorized access");
 	}
-	
+
 	@GetMapping("/all")
 	public List<Product> getAllProducts() {
 		return productService.getAllProducts();

@@ -13,7 +13,9 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
+import com.pos.model.Category;
 import com.pos.model.Product;
+import com.pos.repo.CategoryRepository;
 import com.pos.repo.ProductRepository;
 
 @Service
@@ -21,6 +23,9 @@ public class ProductService {
 
 	@Autowired
 	private ProductRepository productRepository;
+	
+	@Autowired
+	private CategoryRepository categoryRepository;
 
 	public String saveImage(MultipartFile image) throws IOException {
 		String uploadDir = "C:\\Users\\MODERN\\Documents\\workspace-spring-tool-suite-4-4.18.1.RELEASE\\pos_application\\uploads";
@@ -42,7 +47,11 @@ public class ProductService {
 		return uniqueFileName;
 	}
 
-	public void registerProduct(Product product) {
+	public void registerProduct(Product product, Long categoryId) {
+		Category category = categoryRepository.findById(categoryId)
+				.orElseThrow(() -> new RuntimeException("Category Not Found"));
+		product.setCategory(category);
+		
 		productRepository.save(product);
 
 	}
