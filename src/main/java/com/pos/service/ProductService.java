@@ -15,8 +15,10 @@ import org.springframework.web.multipart.MultipartFile;
 
 import com.pos.model.Category;
 import com.pos.model.Product;
+import com.pos.model.SubCategory;
 import com.pos.repo.CategoryRepository;
 import com.pos.repo.ProductRepository;
+import com.pos.repo.SubCategoryRepository;
 
 @Service
 public class ProductService {
@@ -26,6 +28,9 @@ public class ProductService {
 	
 	@Autowired
 	private CategoryRepository categoryRepository;
+	
+	@Autowired
+	private SubCategoryRepository subCategoryRepository;
 
 	public String saveImage(MultipartFile image) throws IOException {
 //		String uploadDir = "C:\\Users\\MODERN\\Documents\\workspace-spring-tool-suite-4-4.18.1.RELEASE\\pos_application\\uploads";
@@ -48,10 +53,14 @@ public class ProductService {
 		return uniqueFileName;
 	}
 
-	public void registerProduct(Product product, Long categoryId) {
+	public void registerProduct(Product product, Long categoryId, Long subCategoryId) {
 		Category category = categoryRepository.findById(categoryId)
 				.orElseThrow(() -> new RuntimeException("Category Not Found"));
 		product.setCategory(category);
+		
+		SubCategory subCategory = subCategoryRepository.findById(subCategoryId)
+				.orElseThrow(() -> new RuntimeException("SubCategory not found"));
+		product.setSubCategory(subCategory);
 		
 		productRepository.save(product);
 

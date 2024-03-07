@@ -6,6 +6,8 @@ const ProductTab = () => {
   const [categories, setCategories] = useState([]);
   const [showModal, setShowModal] = useState(false);
   const [editModalVisible, setEditModalVisible] = useState(false);
+  const [subCategories, setSubCategories] = useState([]);
+  const [selectedCategoryId, setSelectedCategoryId] = useState('');
 
   const [editProductName, setEditProductName] = useState('');
   const [editPrice, setEditPrice] = useState('');
@@ -111,6 +113,7 @@ const ProductTab = () => {
 
       })], { type: "application/json" }));
       formData.append('categoryId', productData.categoryId);
+      formData.append('subCategoryId', productData.subCategoryId);
       const response = await axios.post('/api/product/add', formData, {
         headers: {
           'Content-Type': 'multipart/form-data',
@@ -158,9 +161,22 @@ const ProductTab = () => {
     try {
         const response = await axios.get('/api/category/all');
         setCategories(response.data);
+        console.log("Categories: ", response.data);
     } catch (error) {
         console.error('Error fetching categories:', error);
     }
+};
+
+const handleCategoryChange = async (categoryId) => {
+  setSelectedCategoryId(categoryId);
+  try {
+    const response = await axios.get(`/api/category/sub/${categoryId}`);
+    setSubCategories(response.data);
+    console.log("Sub Categories: ", response.data);
+
+  } catch (error) {
+    console.error('Error fetching subcategories:', error);
+  }
 };
 
 // fetchCategories();
@@ -235,11 +251,28 @@ const ProductTab = () => {
                 as="select"
                 name="categoryId"
                 value={productData.categoryId}
-                onChange={handleChange}
+                onChange={(e) => {
+                  handleChange(e);
+                  handleCategoryChange(e.target.value);
+                }}
               >
                 <option value="" disabled>Select a category</option>
                 {categories.map((category) => (
                   <option key={category.id} value={category.id}>{category.name}</option>
+                ))}
+              </Form.Control>
+            </Form.Group>
+            <Form.Group controlId="subCategoryId">
+              <Form.Label>Subcategory:</Form.Label>
+              <Form.Control
+                as="select"
+                name="subCategoryId"
+                value={productData.subCategoryId}
+                onChange={handleChange}
+              >
+                <option value="" disabled>Select a subcategory</option>
+                {subCategories.map((subcategory) => (
+                  <option key={subcategory.id} value={subcategory.id}>{subcategory.name}</option>
                 ))}
               </Form.Control>
             </Form.Group>

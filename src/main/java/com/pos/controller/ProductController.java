@@ -38,7 +38,7 @@ public class ProductController {
 	@PostMapping("/add")
 	public ResponseEntity<String> addProduct(@RequestPart("image") MultipartFile image,
 			@RequestPart("product") Product product, @RequestParam("categoryId") Long categoryId,
-			HttpServletRequest request) throws IOException {
+			@RequestParam("subCategoryId") Long subCategoryId, HttpServletRequest request) throws IOException {
 
 		Long adminId = (Long) request.getSession().getAttribute("adminId");
 		Long managerId = (Long) request.getSession().getAttribute("managerId");
@@ -55,7 +55,7 @@ public class ProductController {
 			String imagePath = productService.saveImage(image);
 			product.setImg(imagePath);
 
-			productService.registerProduct(product, categoryId);
+			productService.registerProduct(product, categoryId, subCategoryId);
 
 			return ResponseEntity.ok("Product Added By Admin");
 		} else if (managerId != null) {
@@ -68,7 +68,7 @@ public class ProductController {
 			String imagePath = productService.saveImage(image);
 			product.setImg(imagePath);
 
-			productService.registerProduct(product, categoryId);
+			productService.registerProduct(product, categoryId, subCategoryId);
 
 			return ResponseEntity.ok("Product Added By Manager");
 		}

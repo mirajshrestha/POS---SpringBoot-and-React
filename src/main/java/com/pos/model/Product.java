@@ -30,12 +30,16 @@ public class Product {
 	@JoinColumn(name = "category_id")
 	private Category category;
 
+	@ManyToOne
+	@JoinColumn(name = "subCategory_id")
+	private SubCategory subCategory;
+
 	public Product() {
 
 	}
 
 	public Product(Long id, String name, Integer price, Integer quantity, String img, Admin admin, Manager manager,
-			Category category) {
+			Category category, SubCategory subCategory) {
 		super();
 		this.id = id;
 		this.name = name;
@@ -45,6 +49,7 @@ public class Product {
 		this.admin = admin;
 		this.manager = manager;
 		this.category = category;
+		this.subCategory = subCategory;
 	}
 
 	public Long getId() {
@@ -109,6 +114,14 @@ public class Product {
 
 	public void setCategory(Category category) {
 		this.category = category;
+	}
+
+	public SubCategory getSubCategory() {
+		return subCategory;
+	}
+
+	public void setSubCategory(SubCategory subCategory) {
+		this.subCategory = subCategory;
 	}
 
 }
