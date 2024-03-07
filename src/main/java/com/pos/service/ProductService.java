@@ -28,7 +28,8 @@ public class ProductService {
 	private CategoryRepository categoryRepository;
 
 	public String saveImage(MultipartFile image) throws IOException {
-		String uploadDir = "C:\\Users\\MODERN\\Documents\\workspace-spring-tool-suite-4-4.18.1.RELEASE\\pos_application\\uploads";
+//		String uploadDir = "C:\\Users\\MODERN\\Documents\\workspace-spring-tool-suite-4-4.18.1.RELEASE\\pos_application\\uploads";
+		String uploadDir = "uploads/";
 
 		Path uploadPath = Path.of(uploadDir);
 

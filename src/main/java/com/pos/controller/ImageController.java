@@ -19,7 +19,10 @@ import org.springframework.web.bind.annotation.RestController;
 public class ImageController {
 	@GetMapping("/{imageName}")
 	public ResponseEntity<byte[]> getImage(@PathVariable String imageName) throws IOException {
-		String imagePath = "C:\\Users\\MODERN\\Documents\\workspace-spring-tool-suite-4-4.18.1.RELEASE\\pos_application\\uploads\\"
+//		String imagePath = "C:\\Users\\MODERN\\Documents\\workspace-spring-tool-suite-4-4.18.1.RELEASE\\pos_application\\uploads\\"
+//				+ imageName;
+		
+		String imagePath = "uploads/"
 				+ imageName;
 
 		Path path = Paths.get(imagePath);
