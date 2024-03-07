@@ -1,6 +1,7 @@
 package com.pos.service;
 
 import java.util.List;
+import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -24,6 +25,11 @@ public class CategoryService {
 
 	public void deleteCategory(Long id) {
 		categoryRepository.deleteById(id);
+	}
+
+	public Category getCategoryById(Long parentCategoryId) {
+		Optional<Category> categoryOptional = categoryRepository.findById(parentCategoryId);
+		return categoryOptional.orElse(null);
 	}
 	
 	
