@@ -1,6 +1,9 @@
 import React, { useEffect, useState } from 'react';
 import { Button, Modal, Form, Table } from 'react-bootstrap';
 import axios from 'axios';
+import BootstrapTable from 'react-bootstrap-table-next';
+import paginationFactory from 'react-bootstrap-table2-paginator';
+import filterFactory, { textFilter } from 'react-bootstrap-table2-filter';
 
 const ProductTab = () => {
   const [categories, setCategories] = useState([]);
@@ -47,17 +50,17 @@ const ProductTab = () => {
     });
   }
 
-  const handleOpenEditModal = (product) => {
+  const handleOpenEditModal = (row) => {
     setEditModalVisible(true);
-    setEditProductName(product.name);
-    setEditPrice(product.price);
-    setEditQuantity(product.quantity);
+    setEditProductName(row.name);
+    setEditPrice(row.price);
+    setEditQuantity(row.quantity);
     setEditProductImage(null);
     setEditProductData({
-      id: product.id,
-      productName: product.name,
-      price: product.price,
-      quantity: product.quantity,
+      id: row.id,
+      productName: row.name,
+      price: row.price,
+      quantity: row.quantity,
       productImage: null,
     });
   }
@@ -162,37 +165,102 @@ const ProductTab = () => {
 
   const fetchCategories = async () => {
     try {
-        const response = await axios.get('/api/category/all');
-        setCategories(response.data);
-        console.log("Categories: ", response.data);
+      const response = await axios.get('/api/category/all');
+      setCategories(response.data);
+      console.log("Categories: ", response.data);
     } catch (error) {
-        console.error('Error fetching categories:', error);
+      console.error('Error fetching categories:', error);
     }
-};
+  };
 
-const handleCategoryChange = async (categoryId) => {
-  setSelectedCategoryId(categoryId);
-  try {
-    const response = await axios.get(`/api/category/sub/${categoryId}`);
-    setSubCategories(response.data);
-    console.log("Sub Categories: ", response.data);
+  const handleCategoryChange = async (categoryId) => {
+    setSelectedCategoryId(categoryId);
+    try {
+      const response = await axios.get(`/api/category/sub/${categoryId}`);
+      setSubCategories(response.data);
+      console.log("Sub Categories: ", response.data);
 
-  } catch (error) {
-    console.error('Error fetching subcategories:', error);
-  }
-};
+    } catch (error) {
+      console.error('Error fetching subcategories:', error);
+    }
+  };
 
-// fetchCategories();
+  // fetchCategories();
 
   const handleDeleteProduct = async (productId) => {
     try {
       await axios.delete(`/api/product/${productId}`);
       alert('Product successfully deleted');
-      window.location.reload();
+      fetchProducts();
     } catch (error) {
       console.error('Error deleting Product: ', error);
     }
   }
+
+  const columns = [
+    {
+      dataField: 'id',
+      text: '#',
+      formatter: (cell, row, rowIndex) => rowIndex + 1,
+      headerStyle: { cursor: 'pointer' },
+    },
+    {
+      dataField: 'img',
+      text: 'Product Image',
+      formatter: (cell, row) => (
+        <img
+          src={`http://localhost:8080/api/images/${cell}`}
+          style={{ width: '80px', height: '75px' }}
+          alt={row.name}
+        />
+      ),
+    },
+    {
+      dataField: 'name',
+      // text: 'Name',
+      filter: textFilter({
+        placeholder: 'Search by name',
+      }),
+      sort: true,
+      headerStyle: { cursor: 'pointer' },
+    },
+    {
+      dataField: 'price',
+      text: 'Price',
+      // filter: textFilter(),
+      sort: true,
+      headerStyle: { cursor: 'pointer' },
+    },
+    {
+      dataField: 'quantity',
+      text: 'Quantity',
+      // filter: textFilter(),
+      sort: true,
+      headerStyle: { cursor: 'pointer' },
+    },
+    {
+      dataField: 'actions',
+      text: 'Actions',
+      formatter: (cell, row) => (
+        <>
+          <Button
+            variant="secondary"
+            className="mt-auto"
+            onClick={() => handleOpenEditModal(row)}
+          >
+            <i className="bi bi-pencil-fill"></i> Edit
+          </Button>{' '}
+          <Button
+            variant="danger"
+            className="mt-auto"
+            onClick={() => handleDeleteProduct(row.id)}
+          >
+            <i className="bi bi-trash3"></i> Delete
+          </Button>
+        </>
+      ),
+    },
+  ];
 
   return (
     <div className="mt-4">
@@ -346,7 +414,7 @@ const handleCategoryChange = async (categoryId) => {
         </Modal.Body>
       </Modal>
 
-      <Table striped bordered hover>
+      {/* <Table striped bordered hover>
         <thead>
           <tr>
             <th>#</th>
@@ -380,7 +448,15 @@ const handleCategoryChange = async (categoryId) => {
             </tr>
           ))}
         </tbody>
-      </Table>
+      </Table> */}
+
+      <BootstrapTable
+        keyField="id"
+        data={products}
+        columns={columns}
+        pagination={paginationFactory()}
+        filter={filterFactory({ withoutEmptyColumnFilter: true })}
+      />
     </div>
   )
 }
