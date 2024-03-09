@@ -17,6 +17,7 @@ public class Product {
 	private Integer price;
 	private Integer quantity;
 	private String img;
+	private String brand;
 
 	@ManyToOne
 	@JoinColumn(name = "admin_id")
@@ -38,14 +39,15 @@ public class Product {
 
 	}
 
-	public Product(Long id, String name, Integer price, Integer quantity, String img, Admin admin, Manager manager,
-			Category category, SubCategory subCategory) {
+	public Product(Long id, String name, Integer price, Integer quantity, String img, String brand, Admin admin,
+			Manager manager, Category category, SubCategory subCategory) {
 		super();
 		this.id = id;
 		this.name = name;
 		this.price = price;
 		this.quantity = quantity;
 		this.img = img;
+		this.brand = brand;
 		this.admin = admin;
 		this.manager = manager;
 		this.category = category;
@@ -122,6 +124,14 @@ public class Product {
 
 	public void setSubCategory(SubCategory subCategory) {
 		this.subCategory = subCategory;
+	}
+
+	public String getBrand() {
+		return brand;
+	}
+
+	public void setBrand(String brand) {
+		this.brand = brand;
 	}
 
 }

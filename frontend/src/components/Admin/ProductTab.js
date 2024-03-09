@@ -18,6 +18,7 @@ const ProductTab = () => {
     productName: '',
     price: '',
     quantity: '',
+    brand: '',
     productImage: null,
   });
 
@@ -41,6 +42,7 @@ const ProductTab = () => {
       productName: '',
       price: '',
       quantity: '',
+      brand: '',
       productImage: null,
     });
   }
@@ -110,6 +112,7 @@ const ProductTab = () => {
         name: productData.productName,
         price: productData.price,
         quantity: productData.quantity,
+        brand: productData.brand,
 
       })], { type: "application/json" }));
       formData.append('categoryId', productData.categoryId);
@@ -275,6 +278,16 @@ const handleCategoryChange = async (categoryId) => {
                   <option key={subcategory.id} value={subcategory.id}>{subcategory.name}</option>
                 ))}
               </Form.Control>
+            </Form.Group>
+            <Form.Group controlId="brand">
+              <Form.Label>Brand: (Optional)</Form.Label>
+              <Form.Control
+                type="text"
+                placeholder="Enter Brand Name"
+                name="brand"
+                value={productData.brand}
+                onChange={handleChange}
+              />
             </Form.Group>
             <br />
             <Button variant="primary" onClick={handleAddProduct}>
