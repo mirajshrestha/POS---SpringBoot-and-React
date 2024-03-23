@@ -9,6 +9,7 @@ import ProfileTab from './ProfileTab';
 import ProductTab from './ProductTab';
 import CartTab from './CartTab';
 import TransactionTab from './TransactionTab';
+import SellProduct from './SellProduct';
 
 const Dashboard = () => {
   const [activeTab, setActiveTab] = useState('cashier');
@@ -52,6 +53,9 @@ const Dashboard = () => {
               <Nav.Link eventKey="product" className="sidebar-link">
                 <i className="bi bi-box-seam-fill"></i> Product
               </Nav.Link>
+              <Nav.Link eventKey="sell-product" className="sidebar-link">
+                <i className="bi bi-arrow-left-right"></i> Sell Product
+              </Nav.Link>
               <Nav.Link eventKey="cart" className="sidebar-link">
                 <i className="bi bi-cart"></i> Cart
               </Nav.Link>
@@ -75,6 +79,9 @@ const Dashboard = () => {
               </Tab.Pane>
               <Tab.Pane eventKey="product">
                 <ProductTab />
+              </Tab.Pane>
+              <Tab.Pane eventKey="sell-product">
+                <SellProduct />
               </Tab.Pane>
               <Tab.Pane eventKey="cart">
                 <CartTab />

@@ -1,9 +1,10 @@
 import React, { useEffect, useState } from 'react';
-import { Button, Modal, Form, Table } from 'react-bootstrap';
+import { Button, Modal, Form, Table, FormGroup } from 'react-bootstrap';
 import axios from 'axios';
 import BootstrapTable from 'react-bootstrap-table-next';
 import paginationFactory from 'react-bootstrap-table2-paginator';
 import filterFactory, { textFilter } from 'react-bootstrap-table2-filter';
+import ScannerComponent from '../ScannerComponent';
 
 const ProductTab = () => {
   const [categories, setCategories] = useState([]);
@@ -11,6 +12,7 @@ const ProductTab = () => {
   const [editModalVisible, setEditModalVisible] = useState(false);
   const [subCategories, setSubCategories] = useState([]);
   const [selectedCategoryId, setSelectedCategoryId] = useState('');
+  
 
   const [editProductName, setEditProductName] = useState('');
   const [editPrice, setEditPrice] = useState('');
@@ -19,6 +21,7 @@ const ProductTab = () => {
 
   const [productData, setProductData] = useState({
     productName: '',
+    barcode: '',
     price: '',
     quantity: '',
     brand: '',
@@ -42,6 +45,7 @@ const ProductTab = () => {
   const handleCloseModal = () => {
     setShowModal(false);
     setProductData({
+      barcode: '',
       productName: '',
       price: '',
       quantity: '',
@@ -116,6 +120,7 @@ const ProductTab = () => {
         price: productData.price,
         quantity: productData.quantity,
         brand: productData.brand,
+        barcode: productData.barcode,
 
       })], { type: "application/json" }));
       formData.append('categoryId', productData.categoryId);
@@ -130,7 +135,8 @@ const ProductTab = () => {
       fetchProducts();
       handleCloseModal();
     } catch (error) {
-      console.error('Error adding product:', error);
+      console.error('Error adding product:', error.response);
+      alert('Product already exists');
     }
   }
 
@@ -147,6 +153,8 @@ const ProductTab = () => {
         [name]: value,
       }));
     }
+    
+    // setInputValue(e.target.value);
   };
 
   const fetchProducts = async () => {
@@ -276,6 +284,16 @@ const ProductTab = () => {
         </Modal.Header>
         <Modal.Body>
           <Form>
+            <FormGroup controlId="barcode">
+              <Form.Label>UPC, EAN, GTIN, or ISBN number:</Form.Label>
+              <Form.Control
+                type="text"
+                name="barcode"
+                value={productData.barcode}
+                onChange={handleChange}
+                placeholder="Enter barcode or ISBN"
+              />
+            </FormGroup>
             <Form.Group controlId="productName">
               <Form.Label>Product Name:</Form.Label>
               <Form.Control

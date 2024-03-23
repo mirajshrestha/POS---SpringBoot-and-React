@@ -13,6 +13,9 @@ public class Product {
 	@Id
 	@GeneratedValue(strategy = GenerationType.AUTO)
 	private Long id;
+	
+	private String barcode;
+	
 	private String name;
 	private Integer price;
 	private Integer quantity;
@@ -39,10 +42,11 @@ public class Product {
 
 	}
 
-	public Product(Long id, String name, Integer price, Integer quantity, String img, String brand, Admin admin,
-			Manager manager, Category category, SubCategory subCategory) {
+	public Product(Long id, String barcode, String name, Integer price, Integer quantity, String img, String brand,
+			Admin admin, Manager manager, Category category, SubCategory subCategory) {
 		super();
 		this.id = id;
+		this.barcode = barcode;
 		this.name = name;
 		this.price = price;
 		this.quantity = quantity;
@@ -132,6 +136,14 @@ public class Product {
 
 	public void setBrand(String brand) {
 		this.brand = brand;
+	}
+
+	public String getBarcode() {
+		return barcode;
+	}
+
+	public void setBarcode(String barcode) {
+		this.barcode = barcode;
 	}
 
 }

@@ -2,6 +2,7 @@ package com.pos.controller;
 
 import java.io.IOException;
 import java.util.List;
+import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -147,5 +148,15 @@ public class ProductController {
 	@GetMapping("/all")
 	public List<Product> getAllProducts() {
 		return productService.getAllProducts();
+	}
+
+	@GetMapping("/{barcode}")
+	public ResponseEntity<Product> getProductsByBarcode(@PathVariable String barcode) {
+		Optional<Product> productOptional = productService.findByBarcode(barcode);
+		if (productOptional.isPresent()) {
+			return ResponseEntity.ok(productOptional.get());
+		} else {
+			return ResponseEntity.status(HttpStatus.NOT_FOUND).body(null);
+		}
 	}
 }

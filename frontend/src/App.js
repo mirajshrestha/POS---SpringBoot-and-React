@@ -13,6 +13,7 @@ import ManagerDashboard from './components/Manager/Dashboard';
 import ManagerRegister from './components/Manager/Register';
 import CashierDashboard from './components/Cashier/Dashboard';
 import CashierRegister from './components/Cashier/Register';
+import ScannerComponent from './components/ScannerComponent';
 
 
 function App() {
@@ -46,6 +47,8 @@ function App() {
           <Route path='/cashier/dashboard' element={<CashierDashboard />} />
           <Route path='/cashier/register' element={<CashierRegister />} />
 
+          {/* Scanner Route */}
+          <Route path='/scanner' element={<ScannerComponent />} />
         </Routes>
       </Router>
     </div>
